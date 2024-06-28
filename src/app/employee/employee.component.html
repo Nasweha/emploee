@@ -1,0 +1,76 @@
+
+ <!-- sidebar -->
+<div class="d-flex ">
+    <div style="height: 80vh; width:  250px ; background-color: rgb(22, 22, 43);" class="d-flex align-items-center flex-column">
+    
+        <a routerLink="/dashboard"  class="mt-5 text-light fs-5" style="text-decoration: none;">DashBoard</a>
+        <a routerLink="employee" class="mt-4 text-light fs-5" style="text-decoration: none;">Employees</a>
+    
+    </div>
+    
+    
+    <div class="p-3  w-100">
+       <div class="p-3 d-flex justify-content-between">
+            <h1 style="font-family: 50px;font-weight: 900; color: rgb(20, 20, 62);">Employee List</h1>
+            
+            <a routerLink="/add" class="btn btn-outline-primary d-flex align-items-center"><i class="fa-solid fa-user me-2" style="color:rgb(20, 20, 62) ;"></i>Add</a> 
+       </div>
+       <h4>{{AdminLogin | date:'short'}}</h4>
+
+       <div class="d-flex mt-4">
+         <input type="text" placeholder="username" class="form-control w-25 me-3" name="skey" [(ngModel)]="searchKey">
+         <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              sort
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" (click)="sortId()">ById</a></li>
+              <li><a class="dropdown-item"(click)="sortName()">BY Nmae</a></li>
+              
+            </ul>
+          </div>
+
+          <button (click)="generatePdf()" class="btn btn-success ms-auto"><i class="fa-solid fa-file-export me-2"></i>Export</button>
+
+       </div>
+
+
+      
+<div class="row w-100">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <table class="table table-bordered mt-5 shadow">
+            <thead>
+                <tr>
+                    <th class="p-3 bg-secondary text-light">UserId</th>
+                    <th class="p-3 bg-secondary text-light">Username</th>
+                    <th class="p-3 bg-secondary text-light">email</th>
+                    <th class="p-3 bg-secondary text-light">status</th>
+                    <th class="p-3 bg-secondary text-light text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let employee of  allEmployee | search:searchKey | paginate: { itemsPerPage: 5, currentPage: p }" [hidden]="employee.id=='1'">
+                    <td class="text-center">{{employee.id}}</td>
+                    <td>{{employee.name}}</td>
+                    <td>{{employee.email}}</td>
+                    <td><button [ngClass]="employee.status=='1'?'btn btn-success':'btn btn-warning'">{{employee.status=='1'?'Active':'Inactive'}}</button></td>
+                    <td class="d-flex justify-content-between">
+                       <a routerLink="/edit/{{employee.id}}"> <button class="btn  btn-outline-primary"><i class="fa-solid fa-pen"></i></button></a>
+                       
+                        <button class="btn  btn-outline-danger" (click)=" removeEmployee(employee.id)"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                    
+                </tr>
+                <p *ngIf="(allEmployee |search:searchKey).length==0" class="text-danger">Employee does not exist</p>
+            </tbody>
+        </table>
+
+        <pagination-controls class="text-center" (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+</div>
+      
+    
+    </div>
+</div>
