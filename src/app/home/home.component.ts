@@ -12,6 +12,7 @@ export class HomeComponent {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions = {};
 
+  status:boolean=true
   editStatus: boolean = true
   totalEmployee: number = 0
   adminDetails: any = {}
@@ -188,6 +189,10 @@ export class HomeComponent {
       }
 
     })
+  }
+
+  changeStatus(){
+    this.status=!this.status
   }
 
 }
